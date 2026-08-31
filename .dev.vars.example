@@ -1,0 +1,2 @@
+ADMIN_PASSWORD=change-this-local-password
+ADMIN_SESSION_SECRET=replace-with-a-long-random-secret-at-least-32-characters
