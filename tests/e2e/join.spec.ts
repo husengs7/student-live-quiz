@@ -7,7 +7,7 @@ test("参加、問題公開、回答、正解発表、終了まで進行でき�
   const participant = await participantContext.newPage();
 
   await admin.goto("/admin");
-  await admin.getByLabel("パスワード").fill("e2e-admin-password");
+  await admin.getByLabel("パスワード").fill(process.env.E2E_ADMIN_PASSWORD ?? "e2e-admin-password");
   await admin.getByRole("button", { name: "ログイン" }).click();
   await expect(admin.getByText("Quiz Control")).toBeVisible();
 
@@ -15,7 +15,7 @@ test("参加、問題公開、回答、正解発表、終了まで進行でき�
   await admin.getByLabel("リセット確認用Adminパスワード").fill("wrong-password");
   await admin.getByRole("button", { name: "リセット" }).click();
   await expect(admin.getByText("Adminパスワードが正しくありません")).toBeVisible();
-  await admin.getByLabel("リセット確認用Adminパスワード").fill("e2e-admin-password");
+  await admin.getByLabel("リセット確認用Adminパスワード").fill(process.env.E2E_ADMIN_PASSWORD ?? "e2e-admin-password");
   await admin.getByRole("button", { name: "リセット" }).click();
   await expect(admin.getByRole("button", { name: "第1問を開始" })).toBeVisible();
 
@@ -43,4 +43,12 @@ test("参加、問題公開、回答、正解発表、終了まで進行でき�
 
   await adminContext.close();
   await participantContext.close();
+});
+
+test("投影待機画面に現在のホストを使った参加QRコードを表示する", async ({ page }) => {
+  await page.goto("/screen");
+
+  await expect(page.getByRole("img", { name: /クイズ参加用QRコード/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /\/quiz/ })).toHaveAttribute("href", `${new URL(page.url()).origin}/quiz`);
+  await expect(page.getByRole("button", { name: "参加URLをコピー" })).toBeVisible();
 });

@@ -50,6 +50,24 @@ npm run dev
 - Admin：`http://localhost:5173/admin`
 - 投影画面：`http://localhost:5173/screen`
 
+## ngrokを使ったスマートフォン実機テスト
+
+ローカルサーバーを起動したまま、別のターミナルで次を実行する。
+
+```bash
+ngrok http 5173
+```
+
+発行されたHTTPS URLの末尾に、それぞれ `/quiz`、`/admin`、`/screen` を付けてアクセスする。投影画面の待機中には、現在のアクセス元を使った参加URLとQRコードが自動表示される。
+
+```text
+参加者：https://<割り当てられたドメイン>.ngrok-free.app/quiz
+Admin：https://<割り当てられたドメイン>.ngrok-free.app/admin
+投影画面：https://<割り当てられたドメイン>.ngrok-free.app/screen
+```
+
+QRコードは現在の `window.location.origin` から生成するため、Cloudflareへデプロイした後もコード変更なしで本番URLへ切り替わる。ngrok起動中はローカルアプリがインターネットへ公開されるため、テスト終了後はngrokを停止する。
+
 ## 開発時の確認コマンド
 
 ```bash

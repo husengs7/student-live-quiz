@@ -1,4 +1,19 @@
 import { defineConfig, devices } from "@playwright/test";
+import { existsSync, readFileSync } from "node:fs";
+
+const fallbackAdminPassword = "e2e-admin-password";
+const localDevVarsPath = new URL(".dev.vars", import.meta.url);
+const localAdminPassword = existsSync(localDevVarsPath)
+  ? readFileSync(localDevVarsPath, "utf8")
+      .split(/\r?\n/)
+      .find((line) => line.startsWith("ADMIN_PASSWORD="))
+      ?.slice("ADMIN_PASSWORD=".length)
+      .trim()
+      .replace(/^['"]|['"]$/g, "")
+  : undefined;
+const e2eAdminPassword = localAdminPassword || fallbackAdminPassword;
+
+process.env.E2E_ADMIN_PASSWORD = e2eAdminPassword;
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -11,7 +26,7 @@ export default defineConfig({
     url: "http://127.0.0.1:5173/api/health",
     reuseExistingServer: true,
     env: {
-      ADMIN_PASSWORD: "e2e-admin-password",
+      ADMIN_PASSWORD: e2eAdminPassword,
       ADMIN_SESSION_SECRET: "e2e-only-session-secret-that-is-long-enough",
     },
   },

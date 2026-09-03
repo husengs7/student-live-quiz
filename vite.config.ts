@@ -4,4 +4,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [react(), cloudflare()],
+  server: {
+    allowedHosts: [".ngrok-free.app", ".ngrok.app"],
+  },
 });
