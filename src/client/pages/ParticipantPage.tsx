@@ -84,6 +84,7 @@ export function ParticipantPage() {
 }
 
 function ParticipantQuestion({ snapshot, sendAnswer }: { snapshot: QuizSnapshot; sendAnswer: (choice: number) => boolean }) {
+  const autoSubmitBufferMs = 500;
   const [draftChoice, setDraftChoice] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const questionId = snapshot.question?.id;
@@ -98,10 +99,23 @@ function ParticipantQuestion({ snapshot, sendAnswer }: { snapshot: QuizSnapshot;
     if (answered) setSubmitting(false);
   }, [answered]);
 
-  const submitAnswer = () => {
+  const submitAnswer = useCallback(() => {
     if (draftChoice === null || answered || submitting || snapshot.phase !== "question_open") return;
     if (sendAnswer(draftChoice)) setSubmitting(true);
-  };
+  }, [answered, draftChoice, sendAnswer, snapshot.phase, submitting]);
+
+  useEffect(() => {
+    if (
+      draftChoice === null ||
+      answered ||
+      submitting ||
+      snapshot.phase !== "question_open" ||
+      snapshot.closesAt === null
+    ) return;
+    const delay = Math.max(0, snapshot.closesAt - Date.now() - autoSubmitBufferMs);
+    const timer = window.setTimeout(submitAnswer, delay);
+    return () => window.clearTimeout(timer);
+  }, [answered, draftChoice, snapshot.closesAt, snapshot.phase, submitAnswer, submitting]);
 
   return (
     <>
@@ -113,6 +127,7 @@ function ParticipantQuestion({ snapshot, sendAnswer }: { snapshot: QuizSnapshot;
       />
       {!answered && snapshot.phase === "question_open" && (
         <div className="answer-submit">
+          <p>選択中の回答は、時間切れになると自動で送信されます。</p>
           <button
             className="button button--primary button--large"
             type="button"
