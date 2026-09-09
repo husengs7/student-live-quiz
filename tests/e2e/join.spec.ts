@@ -25,8 +25,8 @@ test("参加、問題公開、回答、正解発表、終了まで進行でき�
   await expect(participant.getByText("まもなく開始します")).toBeVisible();
 
   await admin.getByRole("button", { name: "第1問を開始" }).click();
-  await expect(participant.getByText("Findyのサービスが支援している領域は？")).toBeVisible();
-  await participant.getByRole("button", { name: /エンジニアのキャリア/ }).click();
+  await expect(participant.getByText("HTTPステータスコード『418』が表すものは？")).toBeVisible();
+  await participant.getByRole("button", { name: /私はティーポット/ }).click();
   await expect(participant.getByText("回答を受け付けました")).toBeVisible();
 
   await admin.getByRole("button", { name: "回答を締め切る" }).click();
