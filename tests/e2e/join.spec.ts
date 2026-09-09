@@ -25,6 +25,8 @@ test("参加、問題公開、回答、正解発表、終了まで進行でき�
   await participant.getByLabel("ニックネーム").fill("テスト参加者");
   await participant.getByRole("button", { name: "参加する" }).click();
   await expect(participant.getByText("まもなく開始します")).toBeVisible();
+  await expect(participant.locator('meta[name="viewport"]')).toHaveAttribute("content", /user-scalable=no/);
+  await expect.poll(() => participant.evaluate(() => getComputedStyle(document.body).overflow)).toBe("hidden");
 
   await inactiveParticipant.goto("/quiz");
   await inactiveParticipant.getByLabel("ニックネーム").fill("未回答参加者");
@@ -33,6 +35,7 @@ test("参加、問題公開、回答、正解発表、終了まで進行でき�
 
   await admin.getByRole("button", { name: "第1問を開始" }).click();
   await expect(participant.getByText("HTTPステータスコード『418』が表すものは？")).toBeVisible();
+  await expect(participant.locator('meta[name="viewport"]')).not.toHaveAttribute("content", /user-scalable=no/);
   await participant.getByRole("button", { name: /私はティーポット/ }).click();
   await expect(participant.getByText("回答を受け付けました")).not.toBeVisible();
   await expect(participant.getByRole("button", { name: "この回答で送信" })).toBeEnabled();

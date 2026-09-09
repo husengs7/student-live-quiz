@@ -1,6 +1,7 @@
 :root { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", system-ui, sans-serif; color: #f7f8ff; background: #101322; font-synthesis: none; }
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 320px; min-height: 100vh; background: radial-gradient(circle at 90% 0%, #293056 0, transparent 38%), radial-gradient(circle at 0% 90%, #1e3a4c 0, transparent 33%), #101322; }
+html.viewport-locked, html.viewport-locked body { width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; touch-action: none; }.viewport-locked body { position: fixed; inset: 0; }.viewport-locked .shell { height: 100dvh; min-height: 0; overflow: hidden; }
 button, input { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 a { color: inherit; text-decoration: none; }

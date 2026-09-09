@@ -177,5 +177,16 @@ function JoinForm({ onJoined }: { onJoined: (session: ParticipantSession) => voi
 }
 
 function WaitingCopy({ title, body }: { title: string; body: string }) {
+  useEffect(() => {
+    const viewport = document.querySelector<HTMLMetaElement>('meta[name="viewport"]');
+    const previousContent = viewport?.content;
+    document.documentElement.classList.add("viewport-locked");
+    viewport?.setAttribute("content", "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no");
+    return () => {
+      document.documentElement.classList.remove("viewport-locked");
+      if (viewport && previousContent) viewport.content = previousContent;
+    };
+  }, []);
+
   return <section className="waiting"><div className="pulse" /><p className="eyebrow">PLEASE WAIT</p><h1>{title}</h1><p>{body}</p></section>;
 }
