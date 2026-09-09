@@ -58,8 +58,16 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
       <div className="toolbar"><div><h1 className="admin-title">Quiz Control</h1>{snapshot && <PhaseLabel phase={snapshot.phase} />}</div><div className="toolbar__actions"><ConnectionBadge state={socket.connectionState} /><a className="button button--ghost" href="/screen" target="_blank">投影画面</a><button className="button button--ghost" onClick={logout}>ログアウト</button></div></div>
       {socket.message && <div className="alert">{socket.message}</div>}
       {snapshot && <>
-        <div className="metrics"><Metric label="参加者" value={`${snapshot.participantCount}人`} /><Metric label="回答" value={`${snapshot.answerCount}人`} /><Metric label="問題" value={`${Math.max(0, snapshot.questionNumber)} / ${snapshot.totalQuestions}`} /></div>
-        <div className="admin-grid"><div><AdminControls snapshot={snapshot} send={socket.send} />{snapshot.question && <QuestionCard snapshot={snapshot} />}</div><section className="panel"><div className="section-title"><h2>ランキング</h2><a href="/api/admin/export" className="button button--ghost">CSV</a></div><Ranking entries={snapshot.ranking} limit={20} /></section></div>
+        <div className="admin-grid">
+          <div><AdminControls snapshot={snapshot} send={socket.send} />{snapshot.question && <QuestionCard snapshot={snapshot} />}</div>
+          <div>
+            <section className="panel status-panel">
+              <h2>進行状況</h2>
+              <div className="metrics status-metrics"><Metric label="参加者" value={`${snapshot.participantCount}人`} /><Metric label="回答" value={`${snapshot.answerCount}人`} /><Metric label="問題" value={`${Math.max(0, snapshot.questionNumber)} / ${snapshot.totalQuestions}`} /></div>
+            </section>
+            <section className="panel"><div className="section-title"><h2>ランキング</h2><a href="/api/admin/export" className="button button--ghost">CSV</a></div><Ranking entries={snapshot.ranking} limit={20} /></section>
+          </div>
+        </div>
         <details className="danger-zone"><summary>データのリセット</summary><p>参加者と回答をすべて削除します。確認のためAdminパスワードを再入力してください。</p><div className="inline"><input type="password" autoComplete="current-password" aria-label="リセット確認用Adminパスワード" value={resetPassword} onChange={(e) => setResetPassword(e.target.value)} placeholder="Adminパスワード" /><button className="button button--danger" disabled={!resetPassword || resetting} onClick={() => void resetQuiz()}>{resetting ? "リセット中…" : "リセット"}</button></div></details>
       </>}
     </Shell>
