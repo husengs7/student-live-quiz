@@ -45,11 +45,13 @@ export function Countdown({ closesAt, active }: { closesAt: number | null; activ
 
 export function QuestionCard({
   snapshot,
-  onAnswer,
+  onSelect,
+  draftChoice,
   interactive,
 }: {
   snapshot: QuizSnapshot;
-  onAnswer?: (choice: number) => void;
+  onSelect?: (choice: number) => void;
+  draftChoice?: number | null;
   interactive?: boolean;
 }) {
   const question = snapshot.question;
@@ -63,7 +65,8 @@ export function QuestionCard({
       <h1>{question.text}</h1>
       <div className="choices">
         {question.choices.map((choice, index) => {
-          const selected = snapshot.me?.selectedChoice === index;
+          const submittedChoice = snapshot.me?.selectedChoice;
+          const selected = submittedChoice === index || (submittedChoice == null && draftChoice === index);
           const correct = snapshot.correctChoice === index;
           const wrongSelected = selected && snapshot.correctChoice !== null && !correct;
           return (
@@ -71,7 +74,7 @@ export function QuestionCard({
               className={`choice ${selected ? "choice--selected" : ""} ${correct ? "choice--correct" : ""} ${wrongSelected ? "choice--wrong" : ""}`}
               disabled={!interactive || snapshot.phase !== "question_open" || snapshot.me?.selectedChoice !== null}
               key={choice}
-              onClick={() => onAnswer?.(index)}
+              onClick={() => onSelect?.(index)}
             >
               <span>{String.fromCharCode(65 + index)}</span>
               {choice}

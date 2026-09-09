@@ -68,9 +68,7 @@ export function ParticipantPage() {
       {snapshot?.question && snapshot.phase !== "finished" && (
         <>
           <div className="toolbar"><PhaseLabel phase={snapshot.phase} /><span>{snapshot.answerCount}人回答</span></div>
-          <QuestionCard snapshot={snapshot} interactive onAnswer={(choice) => socket.send({ type: "answer", choice })} />
-          {snapshot.me?.selectedChoice !== null && snapshot.phase === "question_open" && <div className="success">回答を受け付けました</div>}
-          {snapshot.phase === "question_closed" && <p className="center muted">正解発表をお待ちください。</p>}
+          <ParticipantQuestion snapshot={snapshot} sendAnswer={(choice) => socket.send({ type: "answer", choice })} />
         </>
       )}
       {snapshot?.phase === "finished" && (
@@ -82,6 +80,52 @@ export function ParticipantPage() {
         </section>
       )}
     </Shell>
+  );
+}
+
+function ParticipantQuestion({ snapshot, sendAnswer }: { snapshot: QuizSnapshot; sendAnswer: (choice: number) => boolean }) {
+  const [draftChoice, setDraftChoice] = useState<number | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const questionId = snapshot.question?.id;
+  const answered = snapshot.me?.selectedChoice != null;
+
+  useEffect(() => {
+    setDraftChoice(null);
+    setSubmitting(false);
+  }, [questionId]);
+
+  useEffect(() => {
+    if (answered) setSubmitting(false);
+  }, [answered]);
+
+  const submitAnswer = () => {
+    if (draftChoice === null || answered || submitting || snapshot.phase !== "question_open") return;
+    if (sendAnswer(draftChoice)) setSubmitting(true);
+  };
+
+  return (
+    <>
+      <QuestionCard
+        snapshot={snapshot}
+        draftChoice={draftChoice}
+        interactive={!submitting}
+        onSelect={setDraftChoice}
+      />
+      {!answered && snapshot.phase === "question_open" && (
+        <div className="answer-submit">
+          <button
+            className="button button--primary button--large"
+            type="button"
+            disabled={draftChoice === null || submitting}
+            onClick={submitAnswer}
+          >
+            {submitting ? "回答を送信中…" : "この回答で送信"}
+          </button>
+        </div>
+      )}
+      {answered && snapshot.phase === "question_open" && <div className="success">回答を受け付けました</div>}
+      {snapshot.phase === "question_closed" && <p className="center muted">正解発表をお待ちください。</p>}
+    </>
   );
 }
 

@@ -27,6 +27,8 @@ test("参加、問題公開、回答、正解発表、終了まで進行でき�
   await admin.getByRole("button", { name: "第1問を開始" }).click();
   await expect(participant.getByText("HTTPステータスコード『418』が表すものは？")).toBeVisible();
   await participant.getByRole("button", { name: /私はティーポット/ }).click();
+  await expect(participant.getByText("回答を受け付けました")).not.toBeVisible();
+  await participant.getByRole("button", { name: "この回答で送信" }).click();
   await expect(participant.getByText("回答を受け付けました")).toBeVisible();
 
   await admin.getByRole("button", { name: "回答を締め切る" }).click();
