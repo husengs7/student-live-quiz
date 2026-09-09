@@ -97,6 +97,7 @@ export class QuizRoom extends DurableObject<Env> {
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url);
     if (request.method === "POST" && url.pathname === "/join") return this.join(request);
+    if (request.method === "POST" && url.pathname === "/participant-session") return this.validateParticipantSession(request);
     if (request.method === "GET" && url.pathname === "/ws") return this.connectWebSocket(request);
     if (request.method === "GET" && url.pathname === "/export") {
       if (request.headers.get("X-Admin-Authorized") !== "1") return json({ error: "Unauthorized" }, 401);
@@ -104,12 +105,6 @@ export class QuizRoom extends DurableObject<Env> {
     }
     if (request.method === "POST" && url.pathname === "/admin-reset") {
       if (request.headers.get("X-Admin-Authorized") !== "1") return json({ error: "Unauthorized" }, 401);
-      await this.reset();
-      this.broadcastSnapshots();
-      return json({ ok: true });
-    }
-    if (request.method === "POST" && url.pathname === "/dev-reset") {
-      if (request.headers.get("X-Dev-Reset-Authorized") !== "1") return json({ error: "Unauthorized" }, 401);
       await this.reset();
       this.broadcastSnapshots();
       return json({ ok: true });
@@ -146,6 +141,21 @@ export class QuizRoom extends DurableObject<Env> {
     );
     this.broadcastSnapshots();
     return json({ participantId, token, displayId, nickname }, 201);
+  }
+
+  private async validateParticipantSession(request: Request): Promise<Response> {
+    let body: { participantId?: unknown; token?: unknown };
+    try {
+      body = await request.json();
+    } catch {
+      return json({ error: "Invalid JSON" }, 400);
+    }
+    if (typeof body.participantId !== "string" || typeof body.token !== "string") {
+      return json({ valid: false });
+    }
+    const participant = this.getParticipant(body.participantId);
+    const valid = Boolean(participant && (await sha256(body.token)) === participant.token_hash);
+    return json({ valid });
   }
 
   private async connectWebSocket(request: Request): Promise<Response> {
@@ -336,7 +346,10 @@ export class QuizRoom extends DurableObject<Env> {
     this.setState("waiting", -1, null, null);
     for (const socket of this.ctx.getWebSockets()) {
       const attachment = socket.deserializeAttachment() as ConnectionAttachment | null;
-      if (attachment?.role === "participant") socket.close(1012, "Quiz data was reset");
+      if (attachment?.role === "participant") {
+        this.send(socket, { type: "session_reset" });
+        socket.close(1000, "Quiz data was reset");
+      }
     }
   }
 

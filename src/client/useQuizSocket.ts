@@ -8,6 +8,11 @@ export function useQuizSocket(query: URLSearchParams | null) {
   const [connectionState, setConnectionState] = useState<ConnectionState>("connecting");
   const [message, setMessage] = useState<string | null>(null);
   const socketRef = useRef<WebSocket | null>(null);
+  const onSessionResetRef = useRef<(() => void) | undefined>(undefined);
+
+  const setOnSessionReset = useCallback((callback: (() => void) | undefined) => {
+    onSessionResetRef.current = callback;
+  }, []);
 
   useEffect(() => {
     if (!query) return;
@@ -30,6 +35,9 @@ export function useQuizSocket(query: URLSearchParams | null) {
         if (incoming.type === "snapshot") {
           setSnapshot(incoming);
           setMessage(null);
+        } else if (incoming.type === "session_reset") {
+          onSessionResetRef.current?.();
+          socket.close(1000, "Quiz data was reset");
         } else {
           setMessage(incoming.message);
         }
@@ -61,5 +69,5 @@ export function useQuizSocket(query: URLSearchParams | null) {
     return true;
   }, []);
 
-  return { snapshot, connectionState, message, setMessage, send };
+  return { snapshot, connectionState, message, setMessage, send, setOnSessionReset };
 }

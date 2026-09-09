@@ -26,6 +26,21 @@ describe("quiz worker", () => {
     expect(participant.participantId).toBeTruthy();
     expect(participant.token.length).toBeGreaterThan(32);
     expect(participant.token_hash).toBeUndefined();
+
+    const validResponse = await exports.default.fetch("http://example.com/api/participant/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ participantId: participant.participantId, token: participant.token }),
+    });
+    await expect(validResponse.json()).resolves.toEqual({ valid: true });
+
+    const invalidResponse = await exports.default.fetch("http://example.com/api/participant/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ participantId: participant.participantId, token: "invalid-token" }),
+    });
+    await expect(invalidResponse.json()).resolves.toEqual({ valid: false });
+
   });
 
   it("rejects an invalid nickname", async () => {
@@ -37,8 +52,8 @@ describe("quiz worker", () => {
     expect(response.status).toBe(400);
   });
 
-  it("does not expose the development reset on a non-local hostname", async () => {
-    const response = await exports.default.fetch("http://example.com/api/dev/reset", { method: "POST" });
+  it("does not expose a participant-side reset endpoint", async () => {
+    const response = await exports.default.fetch("http://localhost/api/dev/reset", { method: "POST" });
     expect(response.status).toBe(404);
   });
 });

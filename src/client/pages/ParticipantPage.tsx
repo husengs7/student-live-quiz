@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import type { QuizSnapshot } from "../../shared/protocol";
 import { ConnectionBadge, PhaseLabel, QuestionCard, Ranking, Shell } from "../components";
 import { useQuizSocket } from "../useQuizSocket";
@@ -16,22 +16,45 @@ function loadSession(): ParticipantSession | null {
 
 export function ParticipantPage() {
   const [session, setSession] = useState<ParticipantSession | null>(loadSession);
-  const query = useMemo(() => session
+  const [sessionValidated, setSessionValidated] = useState(false);
+  const clearParticipantSession = useCallback(() => {
+    localStorage.removeItem(STORAGE_KEY);
+    setSessionValidated(false);
+    setSession(null);
+  }, []);
+  const query = useMemo(() => session && sessionValidated
     ? new URLSearchParams({ role: "participant", participantId: session.participantId, token: session.token })
-    : null, [session]);
+    : null, [session, sessionValidated]);
   const socket = useQuizSocket(query);
 
-  async function resetForDevelopment() {
-    const response = await fetch("/api/dev/reset", { method: "POST" });
-    if (!response.ok) {
-      socket.setMessage("リセットできませんでした。ローカル環境で実行してください。");
-      return;
-    }
-    localStorage.removeItem(STORAGE_KEY);
-    setSession(null);
-  }
+  useEffect(() => {
+    socket.setOnSessionReset(clearParticipantSession);
+    return () => socket.setOnSessionReset(undefined);
+  }, [clearParticipantSession, socket.setOnSessionReset]);
+
+  useEffect(() => {
+    if (!session) return;
+    let cancelled = false;
+    void fetch("/api/participant/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ participantId: session.participantId, token: session.token }),
+    }).then(async (response) => {
+      if (!response.ok) throw new Error("参加情報を確認できませんでした");
+      const result = await response.json() as { valid: boolean };
+      if (cancelled) return;
+      if (result.valid) setSessionValidated(true);
+      else clearParticipantSession();
+    }).catch(() => {
+      if (!cancelled) setSessionValidated(true);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [clearParticipantSession, session]);
 
   if (!session) return <JoinForm onJoined={setSession} />;
+  if (!sessionValidated) return <Shell><WaitingCopy title="参加情報を確認しています" body="クイズ会場へ接続しています。" /></Shell>;
   const snapshot = socket.snapshot;
   return (
     <Shell>
@@ -56,14 +79,6 @@ export function ParticipantPage() {
           <h1>おつかれさまでした！</h1>
           <div className="my-result"><span>あなたの順位</span><strong>{snapshot.me?.rank ?? "—"}<small>位</small></strong><b>{snapshot.me?.score.toLocaleString()} pt</b></div>
           <Ranking entries={snapshot.ranking} highlightId={session.participantId} limit={10} />
-          {import.meta.env.DEV && (
-            <div className="dev-tools">
-              <p>開発中のみ表示されています。参加者と回答を削除して最初からやり直します。</p>
-              <button className="button button--danger" onClick={() => void resetForDevelopment()}>
-                開発用：クイズをリセット
-              </button>
-            </div>
-          )}
         </section>
       )}
     </Shell>

@@ -37,7 +37,8 @@ test("参加、問題公開、回答、正解発表、終了まで進行でき�
   await expect(participant.getByText("おつかれさまでした！")).toBeVisible();
   await expect(participant.getByText("1,000 pt").first()).toBeVisible();
 
-  await participant.getByRole("button", { name: "開発用：クイズをリセット" }).click();
+  await admin.getByLabel("リセット確認用Adminパスワード").fill(process.env.E2E_ADMIN_PASSWORD ?? "e2e-admin-password");
+  await admin.getByRole("button", { name: "リセット" }).click();
   await expect(participant.getByRole("heading", { name: "クイズに参加" })).toBeVisible();
   await expect(admin.getByRole("button", { name: "第1問を開始" })).toBeVisible();
 

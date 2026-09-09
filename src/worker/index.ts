@@ -26,6 +26,15 @@ app.post("/api/join", async (c) => {
   return room(c.env).fetch(request);
 });
 
+app.post("/api/participant/session", async (c) => {
+  const request = new Request("https://quiz-room/participant-session", {
+    method: "POST",
+    headers: { "Content-Type": c.req.header("Content-Type") ?? "application/json" },
+    body: c.req.raw.body,
+  });
+  return room(c.env).fetch(request);
+});
+
 app.post("/api/admin/login", async (c) => {
   const expected = getAdminPassword(c.env);
   if (!expected) return c.json({ error: "Admin password is not configured" }, 503);
@@ -72,19 +81,6 @@ app.post("/api/admin/reset", async (c) => {
     new Request("https://quiz-room/admin-reset", {
       method: "POST",
       headers: { "X-Admin-Authorized": "1" },
-    }),
-  );
-});
-
-app.post("/api/dev/reset", async (c) => {
-  const hostname = new URL(c.req.url).hostname;
-  if (hostname !== "localhost" && hostname !== "127.0.0.1" && hostname !== "[::1]") {
-    return c.json({ error: "Development reset is only available on localhost" }, 404);
-  }
-  return room(c.env).fetch(
-    new Request("https://quiz-room/dev-reset", {
-      method: "POST",
-      headers: { "X-Dev-Reset-Authorized": "1" },
     }),
   );
 });

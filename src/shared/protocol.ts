@@ -48,5 +48,6 @@ export type ClientMessage =
 
 export type ServerMessage =
   | QuizSnapshot
+  | { type: "session_reset" }
   | { type: "error"; message: string }
   | { type: "notice"; message: string };
