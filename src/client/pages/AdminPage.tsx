@@ -5,6 +5,10 @@ import { useQuizSocket } from "../useQuizSocket";
 export function AdminPage() {
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   useEffect(() => {
+    document.documentElement.classList.add("admin-mode");
+    return () => document.documentElement.classList.remove("admin-mode");
+  }, []);
+  useEffect(() => {
     void fetch("/api/admin/session")
       .then((response) => response.json() as Promise<{ authenticated: boolean }>)
       .then((value) => setAuthenticated(value.authenticated));

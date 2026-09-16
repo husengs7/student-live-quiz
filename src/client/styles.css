@@ -35,18 +35,18 @@ label { display: grid; gap: 9px; font-size: .88rem; font-weight: 700; color: #cb
 @media (max-width: 460px) { .shell { width: min(100% - 24px, 760px); padding-top: 20px; }.brand { margin-bottom: 24px; }.metrics { gap: 7px; }.metric { padding: 12px 10px; }.metric strong { font-size: 1.15rem; }.panel,.question-card { border-radius: 17px; padding: 20px; }.question-card h1 { margin: 20px 0; }.question-card__image { margin: -4px 0 18px; }.question-card__image img { max-height: 24vh; border-radius: 10px; }.choice { min-height: 62px; }.toolbar__actions .connection { display: none; }.inline { flex-direction: column; } }
 
 /* Warm, paper-like surfaces shared by the entry and admin screens. */
-html:not(.screen-mode):not(.participant-mode) { color: #493d34; background: #eadbc5; }
-html:not(.screen-mode):not(.participant-mode) body { background: radial-gradient(circle at 12% 8%, #fff8eb 0, transparent 38%), radial-gradient(circle at 88% 92%, #d9bd98 0, transparent 34%), #eadbc5; }
-html:not(.screen-mode):not(.participant-mode) .panel,
-html:not(.screen-mode):not(.participant-mode) .question-card,
-html:not(.screen-mode):not(.participant-mode) .metric { color: #493d34; background: #fffaf1e8; border-color: #9b76522e; box-shadow: 0 18px 50px #795a3822; }
-html:not(.screen-mode):not(.participant-mode) .muted,
-html:not(.screen-mode):not(.participant-mode) .toolbar small { color: #806f60; }
-html:not(.screen-mode):not(.participant-mode) input { color: #493d34; background: #fffdf8; border-color: #9b765244; }
-html:not(.screen-mode):not(.participant-mode) .button--primary { background: #d8785f; box-shadow: 0 8px 24px #bd624d38; }
-html:not(.screen-mode):not(.participant-mode) .button--ghost { color: #59483b; background: #fff9ef; border-color: #9b765244; }
-html:not(.screen-mode):not(.participant-mode) .choice { color: #493d34; background: #fffdf8; border-color: #9b765233; }
-html:not(.screen-mode):not(.participant-mode) .choice > span { color: #8a6548; background: #ead8bf; }
+html:not(.screen-mode):not(.participant-mode):not(.admin-mode) { color: #493d34; background: #eadbc5; }
+html:not(.screen-mode):not(.participant-mode):not(.admin-mode) body { background: radial-gradient(circle at 12% 8%, #fff8eb 0, transparent 38%), radial-gradient(circle at 88% 92%, #d9bd98 0, transparent 34%), #eadbc5; }
+html:not(.screen-mode):not(.participant-mode):not(.admin-mode) .panel,
+html:not(.screen-mode):not(.participant-mode):not(.admin-mode) .question-card,
+html:not(.screen-mode):not(.participant-mode):not(.admin-mode) .metric { color: #493d34; background: #fffaf1e8; border-color: #9b76522e; box-shadow: 0 18px 50px #795a3822; }
+html:not(.screen-mode):not(.participant-mode):not(.admin-mode) .muted,
+html:not(.screen-mode):not(.participant-mode):not(.admin-mode) .toolbar small { color: #806f60; }
+html:not(.screen-mode):not(.participant-mode):not(.admin-mode) input { color: #493d34; background: #fffdf8; border-color: #9b765244; }
+html:not(.screen-mode):not(.participant-mode):not(.admin-mode) .button--primary { background: #d8785f; box-shadow: 0 8px 24px #bd624d38; }
+html:not(.screen-mode):not(.participant-mode):not(.admin-mode) .button--ghost { color: #59483b; background: #fff9ef; border-color: #9b765244; }
+html:not(.screen-mode):not(.participant-mode):not(.admin-mode) .choice { color: #493d34; background: #fffdf8; border-color: #9b765233; }
+html:not(.screen-mode):not(.participant-mode):not(.admin-mode) .choice > span { color: #8a6548; background: #ead8bf; }
 
 /* Participant view: a warm single-page notebook. */
 html.participant-mode { color: #403d39; background: #c9a979; }
