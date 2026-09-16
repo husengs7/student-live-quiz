@@ -4,12 +4,13 @@ import type { QuizPhase, QuizSnapshot, RankingEntry } from "../shared/protocol";
 export function Shell({ children, wide = false }: { children: ReactNode; wide?: boolean }) {
   return (
     <main className={wide ? "shell shell--wide" : "shell"}>
-      <header className="brand">
-        <span className="brand__mark">F</span>
-        <div>
-          <strong>Findy Student Quiz</strong>
-          <small>LIVE</small>
-        </div>
+      <header className="brand" aria-label="Findy Student Quiz">
+        <img
+          className="brand__logo"
+          src="/question-images/findy-student_logo_RGB_findy-student_logo_RGB-color-yoko.png"
+          alt="Findy Student"
+        />
+        <small>LIVE</small>
       </header>
       {children}
     </main>
