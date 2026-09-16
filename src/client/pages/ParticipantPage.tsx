@@ -17,6 +17,10 @@ function loadSession(): ParticipantSession | null {
 export function ParticipantPage() {
   const [session, setSession] = useState<ParticipantSession | null>(loadSession);
   const [sessionValidated, setSessionValidated] = useState(false);
+  useEffect(() => {
+    document.documentElement.classList.add("participant-mode");
+    return () => document.documentElement.classList.remove("participant-mode");
+  }, []);
   const clearParticipantSession = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
     setSessionValidated(false);
