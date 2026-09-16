@@ -20,7 +20,7 @@ export const questions: Question[] = [
     imageAlt: "問題画像のデモ表示",
     choices: ["認証が必要", "私はティーポット", "サーバーが休憩中", "コーヒー切れ"],
     correctChoice: 1,
-    timeLimitSeconds: 15,
+    timeLimitSeconds: 30,
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ export const questions: Question[] = [
     imageAlt: "問題画像のデモ表示",
     choices: ["モブプログラミング", "ラバーダック・デバッグ", "ブルーグリーンデプロイ", "ゼロトラスト"],
     correctChoice: 1,
-    timeLimitSeconds: 15,
+    timeLimitSeconds: 30,
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ export const questions: Question[] = [
     imageAlt: "問題画像のデモ表示",
     choices: ["勢いよく押す", "2回押して確実にする", "月曜日の自分に託す", "隣の人に押してもらう"],
     correctChoice: 2,
-    timeLimitSeconds: 12,
+    timeLimitSeconds: 30,
   },
   {
     id: 4,
@@ -47,7 +47,7 @@ export const questions: Question[] = [
     imageAlt: "問題画像のデモ表示",
     choices: ["3.2年", "31.7年", "317年", "3,170年"],
     correctChoice: 1,
-    timeLimitSeconds: 15,
+    timeLimitSeconds: 30,
   },
   {
     id: 5,
@@ -56,7 +56,7 @@ export const questions: Question[] = [
     imageAlt: "問題画像のデモ表示",
     choices: ["キャッシュ", "競合状態", "先輩の圧", "宇宙線"],
     correctChoice: 2,
-    timeLimitSeconds: 12,
+    timeLimitSeconds: 30,
   },
   {
     id: 6,
@@ -65,7 +65,7 @@ export const questions: Question[] = [
     imageAlt: "問題画像のデモ表示",
     choices: ["Digital Network Service", "Domain Name System", "Data Naming Standard", "Distributed Node Server"],
     correctChoice: 1,
-    timeLimitSeconds: 15,
+    timeLimitSeconds: 30,
   },
   {
     id: 7,
@@ -74,6 +74,6 @@ export const questions: Question[] = [
     imageAlt: "問題画像のデモ表示",
     choices: ["1文字のタイプミス", "古いキャッシュ", "環境変数の設定漏れ", "全部ありえる"],
     correctChoice: 3,
-    timeLimitSeconds: 12,
+    timeLimitSeconds: 30,
   },
 ];
