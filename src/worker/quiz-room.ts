@@ -281,6 +281,7 @@ export class QuizRoom extends DurableObject<Env> {
       throw new Error("選択肢が正しくありません");
     }
     const isCorrect = choice === question.correctChoice;
+    const responseTimeMs = Math.max(0, now - state.opened_at);
     try {
       this.ctx.storage.sql.exec(
         `INSERT INTO answers
@@ -290,9 +291,9 @@ export class QuizRoom extends DurableObject<Env> {
         question.id,
         choice,
         now,
-        Math.max(0, now - state.opened_at),
+        responseTimeMs,
         isCorrect ? 1 : 0,
-        scoreAnswer(isCorrect),
+        scoreAnswer(isCorrect, responseTimeMs, question.timeLimitSeconds),
       );
     } catch {
       throw new Error("この問題には回答済みです");
