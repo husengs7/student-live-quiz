@@ -8,6 +8,8 @@ export type QuizPhase =
 export type PublicQuestion = {
   id: number;
   text: string;
+  imageUrl?: string;
+  imageAlt?: string;
   choices: string[];
   timeLimitSeconds: number;
 };

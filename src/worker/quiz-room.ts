@@ -407,6 +407,8 @@ export class QuizRoom extends DurableObject<Env> {
         ? {
             id: question.id,
             text: question.text,
+            imageUrl: question.imageUrl,
+            imageAlt: question.imageAlt,
             choices: question.choices,
             timeLimitSeconds: question.timeLimitSeconds,
           }

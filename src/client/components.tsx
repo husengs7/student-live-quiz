@@ -63,6 +63,11 @@ export function QuestionCard({
         <Countdown closesAt={snapshot.closesAt} active={snapshot.phase === "question_open"} />
       </div>
       <h1>{question.text}</h1>
+      {question.imageUrl && (
+        <figure className="question-card__image">
+          <img src={question.imageUrl} alt={question.imageAlt ?? "問題の参考画像"} />
+        </figure>
+      )}
       <div className="choices">
         {question.choices.map((choice, index) => {
           const submittedChoice = snapshot.me?.selectedChoice;
