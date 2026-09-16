@@ -61,9 +61,14 @@ test("参加、問題公開、回答、正解発表、終了まで進行でき�
 });
 
 test("投影待機画面に現在のホストを使った参加QRコードを表示する", async ({ page }) => {
+  await page.setViewportSize({ width: 1200, height: 800 });
   await page.goto("/screen");
 
   await expect(page.getByRole("img", { name: /クイズ参加用QRコード/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /\/quiz/ })).toHaveAttribute("href", `${new URL(page.url()).origin}/quiz`);
   await expect(page.getByRole("button", { name: "参加URLをコピー" })).toBeVisible();
+  await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).overflow)).toBe("hidden");
+  const shell = await page.locator("main.shell--wide").boundingBox();
+  expect(shell).not.toBeNull();
+  expect(shell!.width / shell!.height).toBeCloseTo(16 / 9, 2);
 });
