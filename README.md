@@ -14,6 +14,8 @@
 
 詳細な検証結果、未完了事項、今後の優先手順は [STATUS.md](STATUS.md) を参照する。
 
+現在の構成図と通信の流れは [ARCHITECTURE.md](ARCHITECTURE.md) を参照する。
+
 - Reactによる参加者・Admin・投影画面
 - HonoによるWorker API
 - 1個のSQLite-backed Durable Object
