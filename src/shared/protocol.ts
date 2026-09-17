@@ -35,6 +35,7 @@ export type QuizSnapshot = {
   answerCount: number;
   answerDistribution: number[] | null;
   correctChoice: number | null;
+  tutorialSlideIndex: number | null;
   ranking: RankingEntry[];
   me: {
     participantId: string;
@@ -46,7 +47,7 @@ export type QuizSnapshot = {
 
 export type ClientMessage =
   | { type: "answer"; choice: number }
-  | { type: "admin_action"; action: "start" | "close" | "reveal" | "next" | "finish" };
+  | { type: "admin_action"; action: "tutorial_start" | "tutorial_next" | "tutorial_end" | "start" | "close" | "reveal" | "next" | "finish" };
 
 export type ServerMessage =
   | QuizSnapshot

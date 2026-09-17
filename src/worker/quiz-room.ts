@@ -19,6 +19,7 @@ type StateRow = {
   current_question_index: number;
   opened_at: number | null;
   closes_at: number | null;
+  tutorial_slide_index: number | null;
 };
 
 type ParticipantRow = {
@@ -85,12 +86,19 @@ export class QuizRoom extends DurableObject<Env> {
           phase TEXT NOT NULL,
           current_question_index INTEGER NOT NULL,
           opened_at INTEGER,
-          closes_at INTEGER
+          closes_at INTEGER,
+          tutorial_slide_index INTEGER
         );
         INSERT OR IGNORE INTO quiz_state
           (singleton, phase, current_question_index, opened_at, closes_at)
           VALUES (1, 'waiting', -1, NULL, NULL);
       `);
+      const stateColumns = this.ctx.storage.sql
+        .exec<{ name: string }>("PRAGMA table_info(quiz_state)")
+        .toArray();
+      if (!stateColumns.some((column) => column.name === "tutorial_slide_index")) {
+        this.ctx.storage.sql.exec("ALTER TABLE quiz_state ADD COLUMN tutorial_slide_index INTEGER");
+      }
     });
   }
 
@@ -235,9 +243,16 @@ export class QuizRoom extends DurableObject<Env> {
   private getState(): StateRow {
     return this.ctx.storage.sql
       .exec<StateRow>(
-        "SELECT phase, current_question_index, opened_at, closes_at FROM quiz_state WHERE singleton = 1",
+        "SELECT phase, current_question_index, opened_at, closes_at, tutorial_slide_index FROM quiz_state WHERE singleton = 1",
       )
       .one();
+  }
+
+  private setTutorialSlide(slideIndex: number | null): void {
+    this.ctx.storage.sql.exec(
+      "UPDATE quiz_state SET tutorial_slide_index = ? WHERE singleton = 1",
+      slideIndex,
+    );
   }
 
   private setState(
@@ -300,10 +315,29 @@ export class QuizRoom extends DurableObject<Env> {
     }
   }
 
-  private async applyAdminAction(action: "start" | "close" | "reveal" | "next" | "finish") {
+  private async applyAdminAction(action: "tutorial_start" | "tutorial_next" | "tutorial_end" | "start" | "close" | "reveal" | "next" | "finish") {
     const state = this.getState();
+    if (action === "tutorial_start") {
+      if (state.phase !== "waiting") throw new Error("チュートリアルは開始前のみ再生できます");
+      this.setTutorialSlide(0);
+      return;
+    }
+    if (action === "tutorial_next") {
+      if (state.phase !== "waiting" || state.tutorial_slide_index === null) {
+        throw new Error("チュートリアルは再生されていません");
+      }
+      if (state.tutorial_slide_index >= 2) throw new Error("最後のスライドです");
+      this.setTutorialSlide(state.tutorial_slide_index + 1);
+      return;
+    }
+    if (action === "tutorial_end") {
+      if (state.phase !== "waiting") throw new Error("チュートリアルを終了できる状態ではありません");
+      this.setTutorialSlide(null);
+      return;
+    }
     if (action === "start") {
       if (state.phase !== "waiting") throw new Error("開始できる状態ではありません");
+      this.setTutorialSlide(null);
       await this.openQuestion(0);
       return;
     }
@@ -345,6 +379,7 @@ export class QuizRoom extends DurableObject<Env> {
     await this.ctx.storage.deleteAlarm();
     this.ctx.storage.sql.exec("DELETE FROM answers; DELETE FROM participants;");
     this.setState("waiting", -1, null, null);
+    this.setTutorialSlide(null);
     for (const socket of this.ctx.getWebSockets()) {
       const attachment = socket.deserializeAttachment() as ConnectionAttachment | null;
       if (attachment?.role === "participant") {
@@ -419,6 +454,7 @@ export class QuizRoom extends DurableObject<Env> {
       answerCount: answers.length,
       answerDistribution: attachment.role === "admin" || revealDetails ? distribution : null,
       correctChoice: attachment.role === "admin" || revealDetails ? question?.correctChoice ?? null : null,
+      tutorialSlideIndex: attachment.role === "admin" || attachment.role === "screen" ? state.tutorial_slide_index : null,
       ranking: attachment.role === "admin" || state.phase === "finished" ? ranking : ranking.slice(0, 5),
       me: attachment.participantId
         ? {
