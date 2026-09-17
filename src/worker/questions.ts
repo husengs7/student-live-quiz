@@ -16,8 +16,8 @@ export const questions: Question[] = [
   {
     id: 1,
     text: "Findy StudentでGitHubを連携することで使えて、自分のエンジニアとしての頑張りを可視化してくれるサービスの名前は？",
-    imageUrl: "/question-images/demo-question.svg",
-    imageAlt: "問題画像のデモ表示",
+    imageUrl: "/question-images/Gemini_Generated_Image_kiky2ukiky2ukiky.jpeg",
+    imageAlt: "Findy StudentのGitHub連携とエンジニア向けプロフィール機能の紹介",
     choices: ["Github日記", "GitHub通信簿", "コミット通信簿", "コミット日記"],
     correctChoice: 2,
     timeLimitSeconds: 30,
