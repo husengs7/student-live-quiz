@@ -1,0 +1,206 @@
+{
+    "root_group": {
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+                "admin login succeeds": {
+                    "passes": 1,
+                    "fails": 0,
+                    "name": "admin login succeeds",
+                    "path": "::admin login succeeds",
+                    "id": "8919447cd6a39012419c2acd1548e5f8"
+                },
+                "initial reset succeeds": {
+                    "fails": 0,
+                    "name": "initial reset succeeds",
+                    "path": "::initial reset succeeds",
+                    "id": "23704fd22bef91bcef53cc82bcb5fddc",
+                    "passes": 1
+                },
+                "join succeeds": {
+                    "name": "join succeeds",
+                    "path": "::join succeeds",
+                    "id": "f8907023e870774a2a7288ad3494964f",
+                    "passes": 5,
+                    "fails": 0
+                },
+                "all participants retained": {
+                    "fails": 0,
+                    "name": "all participants retained",
+                    "path": "::all participants retained",
+                    "id": "fa8a02002798887f4f34036f756b4b3a",
+                    "passes": 1
+                },
+                "ranking contains all participants": {
+                    "id": "a9d7c15d15008f0a137c977254454224",
+                    "passes": 1,
+                    "fails": 0,
+                    "name": "ranking contains all participants",
+                    "path": "::ranking contains all participants"
+                }
+            },
+        "name": ""
+    },
+    "metrics": {
+        "ws_connecting": {
+            "max": 103.430125,
+            "p(90)": 102.340417,
+            "p(95)": 102.885271,
+            "avg": 84.55142366666666,
+            "min": 72.402875,
+            "med": 77.58918750000001
+        },
+        "ws_msgs_sent": {
+            "count": 87,
+            "rate": 2.2666941831181986
+        },
+        "ws_session_duration": {
+            "avg": 36490.039153,
+            "min": 36164.522208,
+            "med": 36170.430271,
+            "max": 38079.855834,
+            "p(90)": 37133.788625500005,
+            "p(95)": 37606.82222975
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 7,
+            "thresholds": {
+                "rate<0.01": false
+            },
+            "value": 0
+        },
+        "http_req_tls_handshaking": {
+            "avg": 31.67428571428572,
+            "min": 0,
+            "med": 34.258,
+            "max": 45.554,
+            "p(90)": 44.065400000000004,
+            "p(95)": 44.8097
+        },
+        "http_req_duration": {
+            "min": 38.567,
+            "med": 52.569,
+            "max": 70.6,
+            "p(90)": 65.899,
+            "p(95)": 68.2495,
+            "avg": 52.75785714285714,
+            "thresholds": {
+                "p(95)<500": false
+            }
+        },
+        "ws_msgs_received": {
+            "count": 292,
+            "rate": 7.6077551893162525
+        },
+        "participant_sockets": {
+            "count": 5,
+            "rate": 0.13026978063897693,
+            "thresholds": {
+                "count==5": false
+            }
+        },
+        "answers_sent": {
+            "count": 50,
+            "rate": 1.3026978063897692,
+            "thresholds": {
+                "count==50": false
+            }
+        },
+        "vus_max": {
+            "value": 6,
+            "min": 6,
+            "max": 6
+        },
+        "ws_sessions": {
+            "count": 6,
+            "rate": 0.1563237367667723
+        },
+        "checks": {
+            "passes": 9,
+            "fails": 0,
+            "thresholds": {
+                "rate>0.99": false
+            },
+            "value": 1
+        },
+        "http_req_waiting": {
+            "med": 52.403,
+            "max": 69.471,
+            "p(90)": 65.3442,
+            "p(95)": 67.4076,
+            "avg": 52.485285714285716,
+            "min": 38.459
+        },
+        "vus": {
+            "value": 6,
+            "min": 1,
+            "max": 6
+        },
+        "http_reqs": {
+            "count": 7,
+            "rate": 0.1823776928945677
+        },
+        "http_req_connecting": {
+            "p(90)": 10.992,
+            "p(95)": 11.412,
+            "avg": 8.757714285714286,
+            "min": 0,
+            "med": 10.257,
+            "max": 11.832
+        },
+        "data_received": {
+            "count": 495717,
+            "rate": 12915.388969802345
+        },
+        "iterations": {
+            "count": 6,
+            "rate": 0.1563237367667723
+        },
+        "http_req_duration{expected_response:true}": {
+            "max": 70.6,
+            "p(90)": 65.899,
+            "p(95)": 68.2495,
+            "avg": 52.75785714285714,
+            "min": 38.567,
+            "med": 52.569
+        },
+        "http_req_sending": {
+            "p(95)": 0.5534999999999999,
+            "avg": 0.17,
+            "min": 0.044,
+            "med": 0.071,
+            "max": 0.735,
+            "p(90)": 0.37200000000000005
+        },
+        "data_sent": {
+            "count": 28872,
+            "rate": 752.2298213217083
+        },
+        "iteration_duration": {
+            "p(90)": 37325.809541500006,
+            "p(95)": 37797.970562250004,
+            "avg": 36685.73529883334,
+            "min": 36365.45025,
+            "med": 36365.886188000004,
+            "max": 38270.131583
+        },
+        "http_req_receiving": {
+            "avg": 0.10257142857142856,
+            "min": 0.028,
+            "med": 0.05,
+            "max": 0.394,
+            "p(90)": 0.21460000000000007,
+            "p(95)": 0.30429999999999996
+        },
+        "http_req_blocked": {
+            "avg": 42.079142857142855,
+            "min": 0.001,
+            "med": 48.96,
+            "max": 57.479,
+            "p(90)": 55.1606,
+            "p(95)": 56.3198
+        }
+    }
+}
