@@ -114,9 +114,9 @@ export function Ranking({ entries, highlightId, limit }: { entries: RankingEntry
     <div className="ranking">
       {visible.length === 0 && <p className="muted">ランキングはまだありません。</p>}
       {visible.map((entry) => (
-        <div className={`ranking__row ${entry.participantId === highlightId ? "ranking__row--me" : ""}`} key={entry.participantId}>
+        <div className={`ranking__row ${entry.rank === 1 ? "ranking__row--winner" : ""} ${entry.participantId === highlightId ? "ranking__row--me" : ""}`} key={entry.participantId}>
           <strong className="ranking__rank">{entry.rank}</strong>
-          <span className="ranking__name">{entry.nickname} <small>#{entry.displayId}</small></span>
+          <span className="ranking__name">{entry.nickname} <small>#{entry.displayId}</small>{entry.rank === 1 && <b className="ranking__winner-label">👑 優勝</b>}</span>
           <span><b>{entry.score.toLocaleString()}</b> pt</span>
         </div>
       ))}

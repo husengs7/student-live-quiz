@@ -76,10 +76,10 @@ export function ParticipantPage() {
         </>
       )}
       {snapshot?.phase === "finished" && (
-        <section className="panel">
-          <p className="eyebrow">FINAL RESULT</p>
-          <h1>おつかれさまでした！</h1>
-          <div className="my-result"><span>あなたの順位</span><strong>{snapshot.me?.rank ?? "—"}<small>位</small></strong><b>{snapshot.me?.score.toLocaleString()} pt</b></div>
+        <section className={`panel ${snapshot.me?.rank === 1 ? "winner-panel" : ""}`}>
+          <p className="eyebrow">{snapshot.me?.rank === 1 ? "CHAMPION" : "FINAL RESULT"}</p>
+          <h1>{snapshot.me?.rank === 1 ? "🎉 優勝おめでとう！" : "おつかれさまでした！"}</h1>
+          <div className={`my-result ${snapshot.me?.rank === 1 ? "my-result--winner" : ""}`}><span>{snapshot.me?.rank === 1 ? "あなたがチャンピオンです！" : "あなたの順位"}</span><strong>{snapshot.me?.rank ?? "—"}<small>位</small></strong><b>{snapshot.me?.score.toLocaleString()} pt</b></div>
           <Ranking entries={snapshot.ranking} highlightId={session.participantId} limit={10} />
         </section>
       )}
