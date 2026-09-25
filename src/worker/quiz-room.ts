@@ -445,6 +445,8 @@ export class QuizRoom extends DurableObject<Env> {
             text: question.text,
             imageUrl: question.imageUrl,
             imageAlt: question.imageAlt,
+            imageUrlB: question.imageUrlB,
+            imageAltB: question.imageAltB,
             answerImageUrl: revealDetails ? question.answerImageUrl : undefined,
             answerImageAlt: revealDetails ? question.answerImageAlt : undefined,
             choices: question.choices,

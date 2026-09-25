@@ -4,6 +4,8 @@ export type Question = {
   /** public/ 以下のパス（例: /question-images/sample.png）または https URL */
   imageUrl?: string;
   imageAlt?: string;
+  imageUrlB?: string;
+  imageAltB?: string;
   answerImageUrl?: string;
   answerImageAlt?: string;
   choices: string[];
@@ -20,6 +22,8 @@ export const questions: Question[] = [
     text: "Findy StudentでGitHubを連携することで使えて、自分のエンジニアとしての頑張りを可視化してくれるサービスの名前は？",
     imageUrl: "/question-images/Gemini_Generated_Image_kiky2ukiky2ukiky.jpeg",
     imageAlt: "Findy StudentのGitHub連携とエンジニア向けプロフィール機能の紹介",
+    answerImageUrl: "/question-images/コミット通信簿正解画像.png",
+    answerImageAlt: "Findy Studentのコミット通信簿ベータ版を紹介する画像",
     choices: ["Github日記", "GitHub通信簿", "コミット通信簿", "コミット日記"],
     correctChoice: 2,
     timeLimitSeconds: 30,
@@ -27,6 +31,10 @@ export const questions: Question[] = [
   {
     id: 2,
     text: "GitHubの公式マスコット『Octocat（オクトキャット / モナ）』の触手は、全部で何本？",
+    imageUrl: "/question-images/onqktponqktponqk.jpeg",
+    imageAlt: "GitHubの公式マスコットOctocat",
+    answerImageUrl: "/question-images/github-octocat.jpg",
+    answerImageAlt: "5本の触手が見えるGitHubの公式マスコットOctocat",
     choices: ["4本", "5本", "8本", "10本"],
     correctChoice: 1,
     timeLimitSeconds: 30,
@@ -34,15 +42,21 @@ export const questions: Question[] = [
   {
     id: 3,
     text: "バージョン管理ツール『Git』という言葉の、英語のスラング（俗語）としての本来の意味はどれ？",
+    imageUrl: "/question-images/git-logo.png",
+    imageAlt: "Gitのロゴ",
     choices: ["『まぬけ』", "『すばやい』", "『秘密の』", "『つながり』"],
     correctChoice: 0,
     timeLimitSeconds: 30,
   },
   {
     id: 4,
-    text: "【会場参加型・2択クイズ】スクリーンに表示されている2枚の写真のうち、『生成AIによって作成された写真』はどちら？",
+    text: "【会場参加型・2択クイズ】スクリーンに表示されている2枚の画像は、一方がGemini、もう一方がChatGPTによって生成されています。Geminiが生成した画像はどちらでしょう？",
+    imageUrl: "/question-images/chatgpt-messy-server-cables.png",
+    imageAlt: "ChatGPTが生成した配線が乱雑なサーバー背面の画像",
+    imageUrlB: "/question-images/Gemini_Generated_Image_rg4cw9rg4cw9rg4c.jpeg",
+    imageAltB: "Geminiが生成した配線が乱雑なサーバー背面の画像",
     choices: ["写真 A", "写真 B"],
-    correctChoice: 0,
+    correctChoice: 1,
     timeLimitSeconds: 30,
   },
   {

@@ -10,6 +10,8 @@ export type PublicQuestion = {
   text: string;
   imageUrl?: string;
   imageAlt?: string;
+  imageUrlB?: string;
+  imageAltB?: string;
   answerImageUrl?: string;
   answerImageAlt?: string;
   choices: string[];

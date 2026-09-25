@@ -63,6 +63,10 @@ export function QuestionCard({
   const imageAlt = snapshot.phase === "answer_revealed" && question.answerImageUrl
     ? question.answerImageAlt
     : question.imageAlt;
+  const images = [
+    imageUrl && { url: imageUrl, alt: imageAlt },
+    !question.answerImageUrl && question.imageUrlB && { url: question.imageUrlB, alt: question.imageAltB },
+  ].filter(Boolean) as { url: string; alt?: string }[];
   return (
     <section className="question-card">
       <div className="question-card__meta">
@@ -70,10 +74,15 @@ export function QuestionCard({
         <Countdown closesAt={snapshot.closesAt} active={snapshot.phase === "question_open"} />
       </div>
       <h1>{question.text}</h1>
-      {imageUrl && (
-        <figure className="question-card__image">
-          <img src={imageUrl} alt={imageAlt ?? "問題の参考画像"} />
-        </figure>
+      {images.length > 0 && (
+        <div className={`question-card__images ${images.length > 1 ? "question-card__images--pair" : ""}`}>
+          {images.map((image, index) => (
+            <figure className="question-card__image" key={image.url}>
+              {images.length > 1 && <strong className="question-card__image-label">{String.fromCharCode(65 + index)}</strong>}
+              <img src={image.url} alt={image.alt ?? "問題の参考画像"} />
+            </figure>
+          ))}
+        </div>
       )}
       <div className="choices">
         {question.choices.map((choice, index) => {
