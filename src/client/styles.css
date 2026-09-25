@@ -67,7 +67,7 @@ html.participant-mode { color: #403d39; background: #c9a979; }
 .participant-mode .question-card__meta { color: #786d63; }
 .participant-mode .question-card h1 { color: #35322f; }
 .participant-mode .question-card__image img { background: #f2eadb; box-shadow: 0 6px 18px #72533224; }
-.participant-mode .choices { position: relative; z-index: 3; }
+.participant-mode .choices { position: relative; z-index: 3; grid-template-columns: 1fr; }
 .participant-mode .choice { color: #403d39; background: #fffefa; border-color: #9f85643d; box-shadow: 0 3px 10px #73543312; }
 .participant-mode .choice:not(:disabled):hover { border-color: #d0775f; background: #fff4e7; }
 .participant-mode .choice > span { color: #8a644b; background: #f0dfc9; }
