@@ -61,9 +61,9 @@ export function ScreenPage() {
 }
 
 const tutorialSlides = [
-  { number: "01", title: "回答を選ぼう", body: "スマートフォンで4つの選択肢から、正解だと思うものをタップします。", note: "選んだだけでは、まだ送信されません" },
-  { number: "02", title: "回答を送信しよう", body: "選択肢を確認してから「この回答で送信」ボタンを押します。", note: "送信した回答は変更できません" },
-  { number: "03", title: "早い正解ほど高得点！", body: "各問題の制限時間は30秒。残り時間が多いほど得点が高くなります。", note: "選択中なら時間切れ直前に自動送信されます" },
+  { number: "01", title: "回答を選ぼう", body: "スマートフォンで4つの選択肢から、正解だと思うものをタップします。", note: "選んだだけでは、まだ送信されません", image: "/tutorial-images/01-select.png" },
+  { number: "02", title: "回答を送信しよう", body: "選択肢を確認してから「この回答で送信」ボタンを押します。", note: "送信した回答は変更できません", image: "/tutorial-images/02-submit.png" },
+  { number: "03", title: "早い正解ほど高得点！", body: "各問題の制限時間は30秒。残り時間が多いほど得点が高くなります。", note: "選択中なら時間切れ直前に自動送信されます", image: "/tutorial-images/03-timer.png" },
 ];
 
 function TutorialSlides({ slideIndex }: { slideIndex: number }) {
@@ -73,8 +73,10 @@ function TutorialSlides({ slideIndex }: { slideIndex: number }) {
       <p className="eyebrow">HOW TO PLAY</p>
       <div className="tutorial-slide__number">{slide.number}</div>
       <h1>{slide.title}</h1>
-      <p className="tutorial-slide__body">{slide.body}</p>
-      <p className="tutorial-slide__note">{slide.note}</p>
+      <div className="tutorial-slide__content">
+        <img className="tutorial-slide__image" src={slide.image} alt={`${slide.title}のスマートフォン画面`} />
+        <div><p className="tutorial-slide__body">{slide.body}</p><p className="tutorial-slide__note">{slide.note}</p></div>
+      </div>
       <div className="tutorial-slide__dots" aria-label={`${tutorialSlides.length}枚中${slideIndex + 1}枚目`}>
         {tutorialSlides.map((_, index) => <span className={index === slideIndex ? "is-active" : ""} key={index} />)}
       </div>

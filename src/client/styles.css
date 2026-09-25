@@ -139,9 +139,18 @@ html.participant-mode { color: #403d39; background: #c9a979; }
 .tutorial-slide { position: relative; display: grid; align-content: center; min-height: calc(100% - 80px); padding: 2vh 8vw 6vh; text-align: center; overflow: hidden; }
 .tutorial-slide__number { position: absolute; top: 2vh; right: 4vw; color: #f0c9852e; font-size: clamp(7rem, 19vmin, 13rem); font-weight: 900; line-height: 1; }
 .tutorial-slide h1 { position: relative; margin: 1vh 0 3vh; color: #fffbed; font-size: clamp(3rem, 7vmin, 5.5rem); line-height: 1.12; text-shadow: 2px 3px 0 #112c25; }
+.tutorial-slide__content { position: relative; display: grid; grid-template-columns: minmax(240px, 40vmin) minmax(0, 1fr); align-items: center; gap: clamp(28px, 5vw, 70px); max-width: 1220px; margin: 0 auto; text-align: left; }
+.tutorial-slide__image { display: block; width: auto; height: 62vh; max-width: 100%; margin: 0 auto; border: 8px solid #161815; border-radius: 24px; object-fit: contain; background: #161815; box-shadow: 0 16px 38px #071b1670; }
 .tutorial-slide__body { position: relative; max-width: 900px; margin: 0 auto; color: #f0ecdc; font-size: clamp(1.4rem, 3.2vmin, 2.3rem); font-weight: 700; line-height: 1.65; }
-.tutorial-slide__note { width: fit-content; margin: 4vh auto 0; border: 1px solid #f0c98566; border-radius: 99px; padding: 10px 22px; color: #f0c985; background: #f0c98512; font-size: clamp(1rem, 2vmin, 1.4rem); }
+.tutorial-slide__note { width: fit-content; margin: 4vh 0 0; border: 1px solid #f0c98566; border-radius: 99px; padding: 10px 22px; color: #f0c985; background: #f0c98512; font-size: clamp(1rem, 2vmin, 1.4rem); }
 .tutorial-slide__dots { display: flex; justify-content: center; gap: 12px; margin-top: 5vh; }.tutorial-slide__dots span { width: 12px; height: 12px; border-radius: 50%; background: #fffbed38; }.tutorial-slide__dots .is-active { background: #f0c985; transform: scale(1.25); }
+
+.tutorial-demo-mode .shell { min-height: 844px; }
+.tutorial-demo-mode .brand { margin-bottom: 18px; }
+.tutorial-demo-mode .question-card { padding: 18px; }
+.tutorial-demo-mode .question-card h1 { margin: 14px 0; font-size: 1.25rem; }
+.tutorial-demo-mode .choice { min-height: 54px; }
+.tutorial-demo-mode .tutorial-demo__focus { border: 3px solid #e6a12d; border-radius: 16px; padding: 10px; box-shadow: 0 0 0 5px #ffd66c55; }
 
 @media (max-width: 460px) {
   .participant-mode .shell { width: calc(100% - 16px); padding: 20px 16px 52px 42px; }
