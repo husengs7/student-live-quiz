@@ -214,12 +214,14 @@ export class QuizRoom extends DurableObject<Env> {
     try {
       if (parsed.type === "answer" && attachment.role === "participant" && attachment.participantId) {
         this.acceptAnswer(attachment.participantId, parsed.choice);
+        this.send(webSocket, this.createSnapshot(attachment));
+        this.broadcastSnapshots(["admin", "screen"]);
       } else if (parsed.type === "admin_action" && attachment.role === "admin") {
         await this.applyAdminAction(parsed.action);
+        this.broadcastSnapshots();
       } else {
         throw new Error("この操作は許可されていません");
       }
-      this.broadcastSnapshots();
     } catch (error) {
       this.send(webSocket, {
         type: "error",
@@ -471,11 +473,12 @@ export class QuizRoom extends DurableObject<Env> {
     };
   }
 
-  private broadcastSnapshots(): void {
+  private broadcastSnapshots(roles?: ConnectionAttachment["role"][]): void {
     for (const socket of this.ctx.getWebSockets()) {
       if (socket.readyState !== WebSocket.OPEN) continue;
       const attachment = socket.deserializeAttachment() as ConnectionAttachment | null;
       if (!attachment) continue;
+      if (roles && !roles.includes(attachment.role)) continue;
       this.send(socket, this.createSnapshot(attachment));
     }
   }

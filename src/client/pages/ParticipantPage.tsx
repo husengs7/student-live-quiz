@@ -71,7 +71,7 @@ export function ParticipantPage() {
       {snapshot?.phase === "waiting" && <WaitingCopy title="まもなく開始します" body={`現在 ${snapshot.participantCount}人が参加しています。司会者の案内をお待ちください。`} />}
       {snapshot?.question && snapshot.phase !== "finished" && (
         <>
-          <div className="toolbar"><PhaseLabel phase={snapshot.phase} /><span>{snapshot.answerCount}人回答</span></div>
+          <div className="toolbar"><PhaseLabel phase={snapshot.phase} /></div>
           <ParticipantQuestion snapshot={snapshot} sendAnswer={(choice) => socket.send({ type: "answer", choice })} />
         </>
       )}

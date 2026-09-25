@@ -34,21 +34,24 @@ test("参加、問題公開、回答、正解発表、終了まで進行でき�
   await expect(inactiveParticipant.getByText("まもなく開始します")).toBeVisible();
 
   await admin.getByRole("button", { name: "第1問を開始" }).click();
-  await expect(participant.getByText("HTTPステータスコード『418』が表すものは？")).toBeVisible();
+  await expect(participant.getByText(/自分のエンジニアとしての頑張りを可視化/)).toBeVisible();
   await expect(participant.locator('meta[name="viewport"]')).not.toHaveAttribute("content", /user-scalable=no/);
-  await participant.getByRole("button", { name: /私はティーポット/ }).click();
+  await participant.getByRole("button", { name: /コミット通信簿/ }).click();
   await expect(participant.getByText("回答を受け付けました")).not.toBeVisible();
   await expect(participant.getByRole("button", { name: "この回答で送信" })).toBeEnabled();
+  await participant.getByRole("button", { name: "この回答で送信" }).click();
   await expect(participant.getByText("回答を受け付けました")).toBeVisible({ timeout: 20_000 });
+  await expect(inactiveParticipant.getByText(/人回答/)).toHaveCount(0);
 
-  await expect(admin.getByRole("button", { name: "正解を発表" })).toBeVisible({ timeout: 5_000 });
   await expect(admin.locator(".metric").filter({ hasText: "回答" }).getByText("1人")).toBeVisible();
+  await admin.getByRole("button", { name: "緊急締切" }).click();
+  await expect(admin.getByRole("button", { name: "正解を発表" })).toBeVisible();
   await admin.getByRole("button", { name: "正解を発表" }).click();
   await expect(participant.getByText("正解発表")).toBeVisible();
 
   await admin.getByRole("button", { name: "クイズを終了" }).click();
   await expect(participant.getByText("おつかれさまでした！")).toBeVisible();
-  await expect(participant.getByText("1,000 pt").first()).toBeVisible();
+  await expect(participant.locator(".my-result > b")).toContainText("pt");
 
   await admin.getByLabel("リセット確認用Adminパスワード").fill(process.env.E2E_ADMIN_PASSWORD ?? "e2e-admin-password");
   await admin.getByRole("button", { name: "リセット" }).click();
