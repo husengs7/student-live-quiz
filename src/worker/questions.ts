@@ -87,6 +87,8 @@ export const questions: Question[] = [
   {
     id: 8,
     text: "HTTPステータスコード『418』の正しい意味はどれ？",
+    answerImageUrl: "/question-images/http418.jpg",
+    answerImageAlt: "HTTPステータスコード418 I'm a teapotの正解画像",
     choices: ["I'm a teapot", "Not Found", "Forbidden", "Bad Request"],
     correctChoice: 0,
     timeLimitSeconds: 30,
@@ -94,6 +96,8 @@ export const questions: Question[] = [
   {
     id: 9,
     text: "プログラムの不具合を意味する『バグ』の語源として、実際にコンピューターの中に挟まって障害を起こした生き物はどれ？",
+    answerImageUrl: "/question-images/first%20bug.png",
+    answerImageAlt: "コンピューターに挟まっていた最初のバグとされる蛾の記録",
     choices: ["蛾", "ゴキブリ", "クモ", "アリ"],
     correctChoice: 0,
     timeLimitSeconds: 30,
