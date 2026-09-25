@@ -64,6 +64,8 @@ export const questions: Question[] = [
     text: "Dockerのロゴに登場するクジラ（Moby Dock）が、背中に背負っているコンテナの数は全部で何個？",
     imageUrl: "/question-images/dockerimage.jpeg",
     imageAlt: "Dockerのクジラのロゴ",
+    answerImageUrl: "/question-images/docker.png",
+    answerImageAlt: "Dockerのクジラが背負うコンテナ数の正解画像",
     choices: ["7個", "9個", "12個", "15個"],
     correctChoice: 1,
     timeLimitSeconds: 30,
