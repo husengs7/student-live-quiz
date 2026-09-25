@@ -50,7 +50,7 @@ export const questions: Question[] = [
   },
   {
     id: 4,
-    text: "【会場参加型・2択クイズ】スクリーンに表示されている2枚の画像は、一方がGemini、もう一方がChatGPTによって生成されています。Geminiが生成した画像はどちらでしょう？",
+    text: "スクリーンに表示されている2枚の画像は、一方がGemini、もう一方がChatGPTによって生成されています。Geminiが生成した画像はどちらでしょう？",
     imageUrl: "/question-images/chatgpt-messy-server-cables.png",
     imageAlt: "ChatGPTが生成した配線が乱雑なサーバー背面の画像",
     imageUrlB: "/question-images/Gemini_Generated_Image_rg4cw9rg4cw9rg4c.jpeg",
