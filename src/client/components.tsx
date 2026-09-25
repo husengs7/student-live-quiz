@@ -57,6 +57,12 @@ export function QuestionCard({
 }) {
   const question = snapshot.question;
   if (!question) return null;
+  const imageUrl = snapshot.phase === "answer_revealed" && question.answerImageUrl
+    ? question.answerImageUrl
+    : question.imageUrl;
+  const imageAlt = snapshot.phase === "answer_revealed" && question.answerImageUrl
+    ? question.answerImageAlt
+    : question.imageAlt;
   return (
     <section className="question-card">
       <div className="question-card__meta">
@@ -64,9 +70,9 @@ export function QuestionCard({
         <Countdown closesAt={snapshot.closesAt} active={snapshot.phase === "question_open"} />
       </div>
       <h1>{question.text}</h1>
-      {question.imageUrl && (
+      {imageUrl && (
         <figure className="question-card__image">
-          <img src={question.imageUrl} alt={question.imageAlt ?? "問題の参考画像"} />
+          <img src={imageUrl} alt={imageAlt ?? "問題の参考画像"} />
         </figure>
       )}
       <div className="choices">
