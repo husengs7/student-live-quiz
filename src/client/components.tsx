@@ -68,7 +68,7 @@ export function QuestionCard({
     !question.answerImageUrl && question.imageUrlB && { url: question.imageUrlB, alt: question.imageAltB },
   ].filter(Boolean) as { url: string; alt?: string }[];
   return (
-    <section className="question-card">
+    <section className={`question-card ${question.id === 5 ? "question-card--compact-image" : ""}`}>
       <div className="question-card__meta">
         <span>QUESTION {snapshot.questionNumber} / {snapshot.totalQuestions}</span>
         <Countdown closesAt={snapshot.closesAt} active={snapshot.phase === "question_open"} />
